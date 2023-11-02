@@ -41,10 +41,13 @@ function randomXY() {
 }
 
 function tick() {
+  const head = state.snake[0];
   const dx = state.direction.x;
   const dy = state.direction.y;
   const hightestIndex = state.snake.length - 1;
   let interval = TICK;
+
+  let didScore = (head.x === state.prey.x && head.y === state.prey.y);
 
   if (state.runState === STATE_RUNNING) {
     for (let idx = hightestIndex; idx > -1; idx--) {
@@ -58,6 +61,10 @@ function tick() {
         sq.y = state.snake[idx - 1].y;
       }
     }
+  }
+
+  if (didScore) {
+    state.prey = randomXY();
   }
 
   requestAnimationFrame(draw);
