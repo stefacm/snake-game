@@ -45,7 +45,10 @@ function tick() {
   const dx = state.direction.x;
   const dy = state.direction.y;
   const hightestIndex = state.snake.length - 1;
+  let tail = {};
   let interval = TICK;
+
+  Object.assign(tail, state.snake.length - 1); // copiar el ultimo objeto de la serpiente en la variable tail
 
   let didScore = (head.x === state.prey.x && head.y === state.prey.y);
 
@@ -64,7 +67,13 @@ function tick() {
   }
 
   if (didScore) {
+    state.growing += GROW_SCALE;
     state.prey = randomXY();
+  }
+
+  if (state.growing > 0) {
+    state.snake.push(tail);
+    state.growing--;
   }
 
   requestAnimationFrame(draw);
